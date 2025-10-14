@@ -34,7 +34,7 @@ export default function NavLink({
     isProfessionalPlanRoute = false,
     newTag,
 }: IProp) {
-    const PROFESSION_PLAN = 'https://nexadash-next.vercel.app/'
+    
     const pathName = usePathname()
 
     return (
