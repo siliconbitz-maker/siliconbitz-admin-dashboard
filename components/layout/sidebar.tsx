@@ -204,12 +204,7 @@ const Sidebar = () => {
                               
                             </ul>
                         </AccordionContent>
-                    </AccordionItem>
-
-                    <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
-                        <span>Apps</span>
-                        <Minus className="text-gray hidden h-4 w-5" />
-                    </h3>
+                    </AccordionItem>                    
 
                     <NavLink
                         href="/chat"
@@ -223,8 +218,6 @@ const Sidebar = () => {
 
                     <NavLink
                         href="/scrumboard"
-                        target="_blank"
-                        isProfessionalPlanRoute={true}
                         className={`nav-link ${pathName === '/scrumboard' && 'text-black!'}`}
                     >
                         <SquareKanban className="size-[18px] shrink-0" />
