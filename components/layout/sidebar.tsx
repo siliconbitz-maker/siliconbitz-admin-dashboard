@@ -69,7 +69,7 @@ const Sidebar = () => {
         ) {
             return 'item-1'
         } else if (
-            ['/invoice', '/invoice-details', '/create-invoice'].includes(
+            ['/invoice', '/invoiceDetails',].includes(
                 pathName,
             )
         ) {
@@ -242,16 +242,7 @@ const Sidebar = () => {
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pl-12">
-                                <li>
-                                    <NavLink
-                                        href="/blog-list"
-                                        target="_blank"
-                                        isAccordion={true}
-                                        isProfessionalPlanRoute={true}
-                                    >
-                                        Blog-list
-                                    </NavLink>
-                                </li>
+                               
                                 <li>
                                     <NavLink
                                         href="/blog-details"
@@ -286,33 +277,22 @@ const Sidebar = () => {
                                 <li>
                                     <NavLink
                                         href="/invoice"
-                                        target="_blank"
                                         isAccordion={true}
-                                        isProfessionalPlanRoute={true}
+                                        
                                     >
                                         Invoice
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        href="/invoice-details"
-                                        target="_blank"
+                                        href="/invoiceDetails"
                                         isAccordion={true}
-                                        isProfessionalPlanRoute={true}
+                                        
                                     >
                                         Invoice details
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink
-                                        href="/create-invoice"
-                                        target="_blank"
-                                        isAccordion={true}
-                                        isProfessionalPlanRoute={true}
-                                    >
-                                        Create Invoice
-                                    </NavLink>
-                                </li>
+                               
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
