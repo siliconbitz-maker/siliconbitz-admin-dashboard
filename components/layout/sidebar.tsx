@@ -185,11 +185,7 @@ const Sidebar = () => {
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pr-0 pl-12">
-                                <li>
-                                    <NavLink href="/" isAccordion={true}>
-                                        Sales
-                                    </NavLink>
-                                </li>
+                                
                                
                                 <li>
                                     <NavLink
@@ -301,13 +297,14 @@ const Sidebar = () => {
                         <span>User Interface</span>
                         <Minus className="text-gray hidden h-4 w-5" />
                     </h3>
+                    <NavLink href="/users" className={`nav-link`}>
+                        <PieChart className="size-[18px] shrink-0" />
+                        <span>Users</span>
+                    </NavLink>
 
                    
 
-                    <NavLink href="/chart" className={`nav-link`}>
-                        <PieChart className="size-[18px] shrink-0" />
-                        <span>Charts</span>
-                    </NavLink>
+                    
 
                    
 
@@ -333,28 +330,18 @@ const Sidebar = () => {
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pl-12">
-                                <li>
-                                    <NavLink
-                                        href="/login"
-                                        target="_blank"
-                                        isAccordion={true}
-                                    >
-                                        Login
-                                    </NavLink>
-                                </li>
+                               
                                 <li>
                                     <NavLink
                                         href="/register"
-                                        target="_blank"
                                         isAccordion={true}
                                     >
-                                        Register
+                                        Register User
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
                                         href="/forgot"
-                                        target="_blank"
                                         isAccordion={true}
                                     >
                                         Forgot
@@ -363,7 +350,6 @@ const Sidebar = () => {
                                 <li>
                                     <NavLink
                                         href="/password"
-                                        target="_blank"
                                         isAccordion={true}
                                     >
                                         Password
