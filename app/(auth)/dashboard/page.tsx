@@ -19,7 +19,7 @@ import {
     TrendingUp,
 } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { Calendar } from '@/components/ui/calendar'
 import IconChart from '@/components/icons/icon-chart'
@@ -27,19 +27,23 @@ import IconGoalFlag from '@/components/icons/icon-goal-flag'
 import IconTrophy from '@/components/icons/icon-trophy'
 import IconFile from '@/components/icons/icon-file'
 import Link from 'next/link'
-import { OnlineSalesAreaChart } from '@/components/custom/charts/online-sales-area-chart'
-import { DailySalesBarChart } from '@/components/custom/charts/daily-sales-bar-chart'
-import { RadarAreaChart } from '@/components/custom/charts/radar-area-chart'
-import { DistributionRadialStackedChart } from '@/components/custom/charts/distribution-radial-stacked-chart'
+
 import { DataTable } from '@/components/custom/table/data-table'
 import {
     dashboardcolumns,
     ITable,
 } from '@/components/custom/table/dashboard-columns'
+import { useRouter } from 'next/navigation'
+
 
 const Home = () => {
     const [date, setDate] = useState<Date>()
     const [mainDate, setMainDate] = useState<Date>()
+
+    const router = useRouter()
+
+
+
 
     const data: ITable[] = [
         {
@@ -98,6 +102,8 @@ const Home = () => {
             status: 'done',
         },
     ]
+
+   
 
     return (
         <div className="relative space-y-4">
@@ -188,12 +194,7 @@ const Home = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="m-auto grow">
-                                    <RadarAreaChart
-                                        cardContentClassName="max-h-[354px]"
-                                        isShowTitle={false}
-                                    />
-                                </div>
+                                
                             </div>
                             <div className="grid grid-cols-2 divide-x divide-y divide-gray-300 border-t border-gray-300 sm:grid-cols-4 sm:divide-y-0">
                                 <div className="space-y-5 bg-linear-to-b from-success/2 to-success/0 px-4 py-6 sm:px-[18px] sm:py-8">
@@ -238,11 +239,7 @@ const Home = () => {
                             </div>
                         </CardContent>
                     </Card>
-                    <div className="grid shrink-0 gap-4 sm:grid-cols-2 xl:w-[372px] xl:grid-cols-1">
-                        <OnlineSalesAreaChart isShowTitle={false} />
-
-                        <DailySalesBarChart isShowTitle={true} />
-                    </div>
+                   
                 </div>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
                     <Card>
@@ -524,10 +521,7 @@ const Home = () => {
                         </CardContent>
                     </Card>
 
-                    <DistributionRadialStackedChart
-                        isShowTitle={false}
-                        className="bg-linear-to-b from-gray-300 to-gray-300/0 md:w-[372px]"
-                    />
+                    
                 </div>
             </div>
         </div>
