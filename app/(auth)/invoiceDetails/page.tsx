@@ -193,7 +193,7 @@ export default function InvoiceDetails() {
               </tbody>
             </table>
             <p className="text-right font-bold mt-2">
-              Total: ${selectedInvoice.amount.toFixed(2)}
+              Total: {selectedInvoice.amount.toFixed(2)} Taka
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <Button onClick={() => setSelectedInvoice(null)}>Close</Button>
