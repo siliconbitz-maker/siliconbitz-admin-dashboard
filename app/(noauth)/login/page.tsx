@@ -5,7 +5,7 @@ import IconGoogle from '@/components/icons/icon-google'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { AtSign, TriangleAlert, User } from 'lucide-react'
+import { AtSign, TriangleAlert } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -39,7 +39,6 @@ export default function Login() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Login failed')
 
-      // Redirect to dashboard after successful login
       router.push('/dashboard')
     } catch (err: any) {
       setError(err.message)
@@ -49,91 +48,76 @@ export default function Login() {
   }
 
   return (
-    <div className="w-full gap-5 p-4">
-      <div className="flex overflow-y-auto py-2">
-        <Card className="m-auto w-full max-w-[400px] space-y-[30px] p-5 shadow-sm md:w-[400px]">
-          <CardHeader className="space-y-2">
-            <h2 className="text-lg font-semibold text-black lg:text-xl/tight">
-              Sign In to your account
-            </h2>
-            <p className="font-medium leading-tight">
-              Enter your details to proceed future
-            </p>
-          </CardHeader>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-[400px] space-y-[30px] p-5 shadow-sm md:w-[400px]">
+        <CardHeader className="space-y-2 text-center">
+          <h2 className="text-lg font-semibold text-black lg:text-xl/tight">
+            Sign In to your account
+          </h2>
+          <p className="font-medium leading-tight">
+            Enter your details to proceed future
+          </p>
+        </CardHeader>
 
-          <CardContent className="space-y-[30px]">
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline-general" size="large" className="w-full">
-                <IconGoogle className="size-[18px]" /> Google
-              </Button>
-              <Button variant="outline-general" size="large" className="w-full">
-                <IconFacebook className="size-[18px] text-[#0866FF]" /> Facebook
-              </Button>
+        <CardContent className="space-y-[30px]">
+          <div className="flex items-center gap-2.5">
+            <span className="h-px w-full bg-[#E2E4E9]" />
+            <p className="shrink-0 font-medium leading-tight">Login with email</p>
+            <span className="h-px w-full bg-[#E2E4E9]" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-[30px]">
+            <div>
+              <label className="block font-semibold leading-none text-black">
+                Email address
+              </label>
+              <Input
+                type="email"
+                placeholder="username@domain.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                iconRight={<AtSign className="size-[18px]" />}
+              />
             </div>
 
-            <div className="flex items-center gap-2.5">
-              <span className="h-px w-full bg-[#E2E4E9]"></span>
-              <p className="shrink-0 font-medium leading-tight">
-                or login with email
-              </p>
-              <span className="h-px w-full bg-[#E2E4E9]"></span>
+            <div>
+              <label className="block font-semibold leading-none text-black">
+                Password
+              </label>
+              <Input
+                type="password"
+                placeholder="Abc*********"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+              />
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-[30px]">
-              <div>
-                <label className="block font-semibold leading-none text-black">
-                  Email address
-                </label>
-                <Input
-                  type="email"
-                  placeholder="username@domain.com"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  iconRight={<AtSign className="size-[18px]" />}
-                />
+            {error && (
+              <div className="flex items-center gap-2 text-xs text-red-500">
+                <TriangleAlert className="size-[18px] shrink-0" />
+                <p>{error}</p>
               </div>
+            )}
 
-              <div>
-                <label className="block font-semibold leading-none text-black">
-                  Password
-                </label>
-                <Input
-                  type="password"
-                  placeholder="Abc*********"
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                />
-              </div>
+            <Link
+              href="/forgot"
+              className="block text-right text-xs font-semibold text-black underline underline-offset-[3px] hover:text-[#3C3C3D]"
+            >
+              Forgot password?
+            </Link>
 
-              {error && (
-                <div className="flex items-center gap-2 text-red-500 text-xs">
-                  <TriangleAlert className="size-[18px] shrink-0 text-red-500" />
-                  <p>{error}</p>
-                </div>
-              )}
-
-              <Link
-                href="/forgot"
-                className="block text-right text-xs/4 font-semibold text-black underline underline-offset-[3px] hover:text-[#3C3C3D]"
-              >
-                Forgot password?
-              </Link>
-
-              <Button
-                type="submit"
-                variant="black"
-                size="large"
-                disabled={loading}
-                className="w-full"
-              >
-                {loading ? 'Logging in...' : 'Login'}
-              </Button>
-
-              
-            </form>
-          </CardContent>
-        </Card>
-      </div>
+            <Button
+              type="submit"
+              variant="black"
+              size="large"
+              disabled={loading}
+              className="w-full"
+            >
+              {loading ? 'Logging in...' : 'Login'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   )
 }
