@@ -27,7 +27,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
   // Prevent deleting the protected email
-  if (userToDelete.email === 'sabbirhasan.engr@gmail.com') {
+  if (userToDelete.email === 'admin@siliconbitz.com') {
     return NextResponse.json({ error: 'Cannot delete this user' }, { status: 403 });
   }
 

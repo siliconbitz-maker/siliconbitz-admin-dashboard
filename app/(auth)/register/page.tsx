@@ -1,19 +1,18 @@
 'use client'
 
-
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { AtSign, User } from 'lucide-react'
 
-import { useState } from 'react'
-
+import { toast } from 'sonner'
 
 export default function Register() {
-  
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -40,7 +39,9 @@ export default function Register() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to register')
 
-      
+      setSuccess(true)
+      setForm({ name: '', email: '', password: '', confirm: '' })
+      toast.success('Your account has been created successfully!')
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -53,30 +54,20 @@ export default function Register() {
       <div className="flex overflow-y-auto py-2">
         <Card className="m-auto w-full max-w-[400px] space-y-[30px] p-5 shadow-sm md:w-[400px]">
           <CardHeader className="space-y-2">
-            <h2 className="text-xl/tight font-semibold text-black">
-              Getting started
-            </h2>
-            <p className="font-medium leading-tight">
-              Create an account to connect with people.
-            </p>
+            <h2 className="text-xl font-semibold text-black">Getting started</h2>
+            <p className="font-medium leading-tight">Create an account to connect with people.</p>
           </CardHeader>
 
           <CardContent className="space-y-[30px]">
-           
-
             <div className="flex items-center gap-2.5">
-              <span className="h-px w-full bg-[#E2E4E9]"></span>
-              <p className="shrink-0 font-medium leading-tight">
-                register with email
-              </p>
-              <span className="h-px w-full bg-[#E2E4E9]"></span>
+              <span className="h-px w-full bg-[#E2E4E9]" />
+              <p className="shrink-0 font-medium leading-tight">register with email</p>
+              <span className="h-px w-full bg-[#E2E4E9]" />
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-[30px]">
               <div>
-                <label className="block font-semibold leading-none text-black">
-                  Your name
-                </label>
+                <label className="block font-semibold text-black">Your name</label>
                 <Input
                   type="text"
                   placeholder="Victoria Gillham"
@@ -87,9 +78,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block font-semibold leading-none text-black">
-                  Email address
-                </label>
+                <label className="block font-semibold text-black">Email address</label>
                 <Input
                   type="email"
                   placeholder="username@domain.com"
@@ -100,9 +89,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block font-semibold leading-none text-black">
-                  Create password
-                </label>
+                <label className="block font-semibold text-black">Create password</label>
                 <Input
                   type="password"
                   placeholder="Abc*********"
@@ -112,9 +99,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block font-semibold leading-none text-black">
-                  Confirm password
-                </label>
+                <label className="block font-semibold text-black">Confirm password</label>
                 <Input
                   type="password"
                   placeholder="Abc*********"
@@ -123,23 +108,16 @@ export default function Register() {
                 />
               </div>
 
-              {error && (
-                <p className="text-red-500 text-sm font-medium">{error}</p>
-              )}
+              {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
 
-              <Button
-                type="submit"
-                variant="black"
-                size="large"
-                disabled={loading}
-                className="w-full"
-              >
+              <Button type="submit" variant="black" size="large" disabled={loading} className="w-full">
                 {loading ? 'Registering...' : 'Register'}
               </Button>
             </form>
           </CardContent>
         </Card>
       </div>
+
     </div>
   )
 }

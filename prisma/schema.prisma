@@ -38,5 +38,14 @@ model Item {
   invoice   Invoice @relation(fields: [invoiceId], references: [id])
   invoiceId String
 }
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  deadline    DateTime
+  teamMembers String   // store comma-separated names
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 
 

@@ -7,7 +7,7 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-import Image from 'next/image'
+
 import Link from 'next/link'
 import {
     BrushCleaning,
@@ -159,13 +159,7 @@ const Sidebar = () => {
                 </button>
                 <div className="flex items-start justify-between border-b border-gray-300 px-4 py-5 lg:hidden">
                     <Link href="/" className="inline-block">
-                        <Image
-                            src="/"
-                            width={145}
-                            height={34}
-                            alt="Logo"
-                            className="h-auto w-auto"
-                        />
+                       Siliconbitz
                     </Link>
                     <button type="button" onClick={toggleSidebarResponsive}>
                         <X className="-mt-2 -mr-2 ml-auto size-4 hover:text-black" />
@@ -185,12 +179,19 @@ const Sidebar = () => {
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pr-0 pl-12">
+                                  <li>
+                                    <NavLink
+                                        href="/dashboard"
+                                        isAccordion={true}
+                                    >
+                                        Overview
+                                    </NavLink>
+                                </li>
                                 
                                
                                 <li>
                                     <NavLink
-                                        href="/projects-dashboard"
-                                        target="_blank"
+                                        href="/projects"
                                         isAccordion={true}
                                         isProfessionalPlanRoute={true}
                                     >
@@ -339,22 +340,7 @@ const Sidebar = () => {
                                         Register User
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink
-                                        href="/forgot"
-                                        isAccordion={true}
-                                    >
-                                        Forgot
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        href="/password"
-                                        isAccordion={true}
-                                    >
-                                        Password
-                                    </NavLink>
-                                </li>
+                              
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
