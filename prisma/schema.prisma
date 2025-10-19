@@ -66,3 +66,12 @@ model Task {
 
   timeSpent Int @default(0) // total time spent in seconds
 }
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  author      String
+  images      String[] // array of image URLs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

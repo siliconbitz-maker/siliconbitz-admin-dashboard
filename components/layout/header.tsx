@@ -98,18 +98,7 @@ const Header = () => {
                 sideOffset={12}
                 className="min-w-[200px] space-y-1 rounded-lg p-1.5 text-sm font-medium"
               >
-                <DropdownMenuItem className="p-0">
-                  <Link
-                    href="/setting"
-                    className={`flex items-center gap-1.5 rounded-lg px-3 py-2 ${
-                      pathName === '/setting' && 'bg-gray-400! text-black!'
-                    }`}
-                  >
-                    <UserCog className="size-[18px] shrink-0" />
-                    Profile
-                  </Link>
-                </DropdownMenuItem>
-
+                
                 <DropdownMenuItem className="p-0">
                   <button
                     onClick={handleSignOut}

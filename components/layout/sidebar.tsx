@@ -18,6 +18,7 @@ import {
     Fingerprint,
     Gauge,
     Gem,
+    LogOut,
     MessageSquareText,
     Minus,
     PanelLeftDashed,
@@ -33,7 +34,7 @@ import {
     X,
 } from 'lucide-react'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import NavLink from '@/components/layout/nav-link'
 
 
@@ -41,7 +42,7 @@ const Sidebar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const pathName = usePathname()
     const [userEmail, setUserEmail] = useState<string | null>(null)
-
+    const router = useRouter()
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
         const mainContent = document.getElementById('main-content')
@@ -129,6 +130,10 @@ const Sidebar = () => {
         }
     }
     const isAdmin = userEmail === 'admin@siliconbitz.com'
+    const handleSignOut = async () => {
+    await fetch('/api/logout', { method: 'POST' })
+    router.push('/')
+  }
 
     useEffect(() => {
         if (document?.getElementById('overlay')?.classList?.contains('open')) {
@@ -249,20 +254,18 @@ const Sidebar = () => {
 
                                 <li>
                                     <NavLink
-                                        href="/blog-details"
-                                        target="_blank"
+                                        href="/blog"
                                         isAccordion={true}
-                                        isProfessionalPlanRoute={true}
+                                        
                                     >
                                         Blog details
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        href="/add-blog"
-                                        target="_blank"
+                                        href="/blog/new"
                                         isAccordion={true}
-                                        isProfessionalPlanRoute={true}
+                                       
                                     >
                                         Add New Blog
                                     </NavLink>
@@ -334,6 +337,13 @@ const Sidebar = () => {
                             </NavLink>
                         </>
                     )}
+                    <button
+                        onClick={handleSignOut}
+                        className="flex w-full items-center gap-1.5 text-danger rounded-lg px-3 py-2"
+                    >
+                        <LogOut className="size-[18px] shrink-0" />
+                        Sign out
+                    </button>
 
 
 

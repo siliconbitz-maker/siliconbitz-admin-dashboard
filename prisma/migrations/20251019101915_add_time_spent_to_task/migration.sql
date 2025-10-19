@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Task" ADD COLUMN     "timeSpent" INTEGER NOT NULL DEFAULT 0;
