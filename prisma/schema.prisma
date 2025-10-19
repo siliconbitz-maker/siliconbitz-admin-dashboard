@@ -3,49 +3,46 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"     // or "mysql"/"sqlite" depending on you
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id         String   @id @default(cuid())
-  name       String
-  email      String   @unique
-  password   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  invoices   Invoice[]
-}
-
-model Invoice {
   id        String   @id @default(cuid())
   name      String
-  company   String
-  amount    Float
-  date      DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  items     Item[]
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  tasks Task[] @relation("UserTasks")
 }
 
-model Item {
-  id        String  @id @default(cuid())
-  description String
-  price     Float
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId String
-}
 model Project {
   id          String   @id @default(cuid())
   name        String
   deadline    DateTime
-  teamMembers String   // store comma-separated names
+  teamMembers String
   createdBy   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  tasks Task[]
 }
 
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  difficulty  String
+  status      String   @default("todo")
+  deadline    DateTime
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  userId String?
+  user   User?   @relation("UserTasks", fields: [userId], references: [id], onDelete: SetNull)
+
+  timeSpent  Int      @default(0) // total time spent in seconds
+}
 
