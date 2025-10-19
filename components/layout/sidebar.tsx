@@ -32,14 +32,15 @@ import {
     TableProperties,
     X,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+
 import { usePathname } from 'next/navigation'
 import NavLink from '@/components/layout/nav-link'
-import { Badge } from '@/components/ui/badge'
+
 
 const Sidebar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const pathName = usePathname()
+    const [userEmail, setUserEmail] = useState<string | null>(null)
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
@@ -127,12 +128,19 @@ const Sidebar = () => {
             return ''
         }
     }
+    const isAdmin = userEmail === 'admin@siliconbitz.com'
 
     useEffect(() => {
         if (document?.getElementById('overlay')?.classList?.contains('open')) {
             toggleSidebarResponsive()
         }
     }, [pathName])
+    useEffect(() => {
+        // Fetch logged-in user
+        fetch('/api/me')
+            .then(res => res.json())
+            .then(data => setUserEmail(data.user?.email || null))
+    }, [])
 
     return (
         <>
@@ -159,7 +167,7 @@ const Sidebar = () => {
                 </button>
                 <div className="flex items-start justify-between border-b border-gray-300 px-4 py-5 lg:hidden">
                     <Link href="/" className="inline-block">
-                       Siliconbitz
+                        Siliconbitz
                     </Link>
                     <button type="button" onClick={toggleSidebarResponsive}>
                         <X className="-mt-2 -mr-2 ml-auto size-4 hover:text-black" />
@@ -179,7 +187,7 @@ const Sidebar = () => {
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pr-0 pl-12">
-                                  <li>
+                                <li>
                                     <NavLink
                                         href="/dashboard"
                                         isAccordion={true}
@@ -187,21 +195,20 @@ const Sidebar = () => {
                                         Overview
                                     </NavLink>
                                 </li>
-                                
-                               
+
+
                                 <li>
                                     <NavLink
                                         href="/projects"
                                         isAccordion={true}
-                                        isProfessionalPlanRoute={true}
                                     >
                                         Projects
                                     </NavLink>
                                 </li>
-                              
+
                             </ul>
                         </AccordionContent>
-                    </AccordionItem>                    
+                    </AccordionItem>
 
                     <NavLink
                         href="/chat"
@@ -239,7 +246,7 @@ const Sidebar = () => {
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pl-12">
-                               
+
                                 <li>
                                     <NavLink
                                         href="/blog-details"
@@ -275,7 +282,7 @@ const Sidebar = () => {
                                     <NavLink
                                         href="/invoice"
                                         isAccordion={true}
-                                        
+
                                     >
                                         Invoice
                                     </NavLink>
@@ -284,12 +291,12 @@ const Sidebar = () => {
                                     <NavLink
                                         href="/invoiceDetails"
                                         isAccordion={true}
-                                        
+
                                     >
                                         Invoice details
                                     </NavLink>
                                 </li>
-                               
+
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
@@ -303,51 +310,36 @@ const Sidebar = () => {
                         <span>Users</span>
                     </NavLink>
 
-                   
 
-                    
 
-                   
 
-                  
+
+
+
+
 
                     <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
                         <span>Pages</span>
                         <Minus className="text-gray hidden h-4 w-5" />
                     </h3>
 
-                    <NavLink
-                        href="/setting"
-                        className={`nav-link ${pathName === '/setting' && 'text-black!'}`}
-                    >
-                        <Settings className="size-[18px] shrink-0" />
-                        <span>Settings</span>
-                    </NavLink>
+                    {isAdmin && (
+                        <>
+                            <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs font-semibold uppercase flex items-center">
+                                Pages <Minus className="ml-auto hidden" />
+                            </h3>
+                            <NavLink href="/register" className={`nav-link ${pathName === '/register' ? 'text-black' : ''}`}>
+                                <Settings className="size-[18px] shrink-0" />
+                                <span>User Register</span>
+                            </NavLink>
+                        </>
+                    )}
 
-                    <AccordionItem value="item-6" className="p-0 shadow-none">
-                        <AccordionTrigger className="nav-link">
-                            <Fingerprint className="size-[18px] shrink-0" />
-                            <span>Authentication</span>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <ul className="submenu space-y-2 pl-12">
-                               
-                                <li>
-                                    <NavLink
-                                        href="/register"
-                                        isAccordion={true}
-                                    >
-                                        Register User
-                                    </NavLink>
-                                </li>
-                              
-                            </ul>
-                        </AccordionContent>
-                    </AccordionItem>
 
-                   
+
+
                 </Accordion>
-               
+
             </Card>
         </>
     )
