@@ -7,47 +7,33 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-
 import Link from 'next/link'
 import {
-    BrushCleaning,
     ChevronDown,
-    ClipboardType,
-    Component,
-    FileType,
-    Fingerprint,
-    Gauge,
-    Gem,
     LogOut,
-    MessageSquareText,
     Minus,
-    PanelLeftDashed,
-    Phone,
-    PieChart,
-    RectangleEllipsis,
-    Rocket,
-    ScrollText,
-    Settings,
-    Sheet,
     SquareKanban,
-    TableProperties,
+    ScrollText,
+    Gauge,
+    PieChart,
+    Settings,
     X,
 } from 'lucide-react'
-
 import { usePathname, useRouter } from 'next/navigation'
 import NavLink from '@/components/layout/nav-link'
-
 
 const Sidebar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const pathName = usePathname()
     const [userEmail, setUserEmail] = useState<string | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
         const mainContent = document.getElementById('main-content')
         if (mainContent) {
-            mainContent.style.marginLeft = isSidebarOpen ? '260px' : '60px' // Adjust this value as needed
+            mainContent.style.marginLeft = isSidebarOpen ? '260px' : '60px'
         }
     }
 
@@ -60,88 +46,37 @@ const Sidebar = () => {
         if (['/blog-list', '/blog-details', '/add-blog'].includes(pathName)) {
             return 'item-2'
         } else if (
-            [
-                '/',
-                '/crypto-dashboard',
-                '/product-card',
-                '/add-product',
-                '/product-details',
-                '/product-checkout',
-            ].includes(pathName)
+            ['/', '/crypto-dashboard', '/product-card', '/add-product', '/product-details', '/product-checkout'].includes(pathName)
         ) {
             return 'item-1'
-        } else if (
-            ['/invoice', '/invoiceDetails',].includes(
-                pathName,
-            )
-        ) {
+        } else if (['/invoice', '/invoiceDetails'].includes(pathName)) {
             return 'item-3'
-        } else if (
-            [
-                '/accordion-page',
-                '/alert',
-                '/alert-dialog',
-                '/avatar',
-                '/breadcrumbs',
-                '/buttons',
-                '/calendar-page',
-                '/card-page',
-                '/carousel',
-                '/collapsible-page',
-                '/context-menu-page',
-                '/date-picker',
-                '/dialog',
-                '/drawer-page',
-                '/dropdown',
-                '/empty-stats',
-                '/hover-card',
-                '/menubar',
-                '/pagination',
-                '/popover',
-                '/progress',
-                '/resizable',
-                '/scroll-area',
-                '/separator',
-                '/sheet-page',
-                '/skeleton',
-                '/slider',
-                '/sonner',
-                '/tabs',
-                '/tag',
-                '/toasts',
-                '/toggle-group',
-                '/tooltip',
-            ].includes(pathName)
-        ) {
-            return 'item-4'
-        } else if (
-            [
-                '/checkbox',
-                '/combobox',
-                '/command',
-                '/form',
-                '/inputs',
-                '/input-otp',
-            ].includes(pathName)
-        ) {
-            return 'item-5'
         } else {
             return ''
         }
     }
+
     const isAdmin = userEmail === 'admin@siliconbitz.com'
+
     const handleSignOut = async () => {
-    await fetch('/api/logout', { method: 'POST' })
-    router.push('/')
-  }
+        try {
+            setIsLoading(true)
+            await fetch('/api/logout', { method: 'POST' })
+            router.push('/')
+        } catch (error) {
+            console.error('Logout failed:', error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     useEffect(() => {
         if (document?.getElementById('overlay')?.classList?.contains('open')) {
             toggleSidebarResponsive()
         }
     }, [pathName])
+
     useEffect(() => {
-        // Fetch logged-in user
         fetch('/api/me')
             .then(res => res.json())
             .then(data => setUserEmail(data.user?.email || null))
@@ -154,22 +89,11 @@ const Sidebar = () => {
                 className="fixed inset-0 z-30 hidden bg-black/50"
                 onClick={toggleSidebarResponsive}
             ></div>
+
             <Card
                 id="sidebar"
                 className={`sidebar fixed top-0 -left-[260px] z-40 flex h-screen w-[260px] flex-col rounded-none transition-all duration-300 lg:top-16 lg:left-0 lg:h-[calc(100vh-64px)] ${isSidebarOpen ? 'closed' : ''}`}
             >
-                <button
-                    type="button"
-                    onClick={toggleSidebar}
-                    className="absolute -top-3.5 -right-2.5 hidden size-6 place-content-center rounded-full border border-gray-300 bg-white text-black lg:grid"
-                >
-                    <ChevronDown
-                        className={`h-4 w-4 rotate-90 ${isSidebarOpen ? 'hidden' : ''}`}
-                    />
-                    <ChevronDown
-                        className={`hidden h-4 w-4 -rotate-90 ${isSidebarOpen ? 'block!' : ''}`}
-                    />
-                </button>
                 <div className="flex items-start justify-between border-b border-gray-300 px-4 py-5 lg:hidden">
                     <Link href="/" className="inline-block">
                         Siliconbitz
@@ -178,6 +102,7 @@ const Sidebar = () => {
                         <X className="-mt-2 -mr-2 ml-auto size-4 hover:text-black" />
                     </button>
                 </div>
+
                 <Accordion
                     type="single"
                     defaultValue={isOpen()}
@@ -193,84 +118,43 @@ const Sidebar = () => {
                         <AccordionContent>
                             <ul className="submenu space-y-2 pr-0 pl-12">
                                 <li>
-                                    <NavLink
-                                        href="/dashboard"
-                                        isAccordion={true}
-                                    >
+                                    <NavLink href="/dashboard" isAccordion={true}>
                                         Overview
                                     </NavLink>
                                 </li>
-
-
                                 <li>
-                                    <NavLink
-                                        href="/projects"
-                                        isAccordion={true}
-                                    >
+                                    <NavLink href="/projects" isAccordion={true}>
                                         Projects
                                     </NavLink>
                                 </li>
-
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
+
                     <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
                         <span>Apps</span>
                         <Minus className="text-gray hidden h-4 w-5" />
                     </h3>
 
-                    <NavLink
-                        href="/chat"
-                        
-                        className={`nav-link ${pathName === '/chat' && 'text-black!'}`}
-                        
-                    >
-                        <MessageSquareText className="size-[18px] shrink-0" />
-                        <span>Chat</span>
-                    </NavLink>
-
-                    <NavLink
-                        href="/scrumboard"
-                        className={`nav-link ${pathName === '/scrumboard' && 'text-black!'}`}
-                    >
+                    <NavLink href="/scrumboard" className={`nav-link ${pathName === '/scrumboard' && 'text-black!'}`}>
                         <SquareKanban className="size-[18px] shrink-0" />
                         <span>Scrumboard</span>
                     </NavLink>
 
                     <AccordionItem value="item-2" className="p-0 shadow-none">
-                        <AccordionTrigger
-                            defaultValue={
-                                [
-                                    '/blog-list',
-                                    '/blog-details',
-                                    '/add-blog',
-                                ].includes(pathName)
-                                    ? 'item-2'
-                                    : ''
-                            }
-                            className="nav-link"
-                        >
+                        <AccordionTrigger className="nav-link">
                             <SquareKanban className="size-[18px] shrink-0 -rotate-90" />
                             <span>Blog</span>
                         </AccordionTrigger>
                         <AccordionContent>
                             <ul className="submenu space-y-2 pl-12">
-
                                 <li>
-                                    <NavLink
-                                        href="/blog"
-                                        isAccordion={true}
-                                        
-                                    >
+                                    <NavLink href="/blog" isAccordion={true}>
                                         Blog details
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink
-                                        href="/blog/new"
-                                        isAccordion={true}
-                                       
-                                    >
+                                    <NavLink href="/blog/new" isAccordion={true}>
                                         Add New Blog
                                     </NavLink>
                                 </li>
@@ -286,24 +170,15 @@ const Sidebar = () => {
                         <AccordionContent>
                             <ul className="submenu space-y-2 pl-12">
                                 <li>
-                                    <NavLink
-                                        href="/invoice"
-                                        isAccordion={true}
-
-                                    >
+                                    <NavLink href="/invoice" isAccordion={true}>
                                         Invoice
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink
-                                        href="/invoiceDetails"
-                                        isAccordion={true}
-
-                                    >
+                                    <NavLink href="/invoiceDetails" isAccordion={true}>
                                         Invoice details
                                     </NavLink>
                                 </li>
-
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
@@ -312,45 +187,57 @@ const Sidebar = () => {
                         <span>User Interface</span>
                         <Minus className="text-gray hidden h-4 w-5" />
                     </h3>
+
                     <NavLink href="/users" className={`nav-link`}>
                         <PieChart className="size-[18px] shrink-0" />
                         <span>Users</span>
                     </NavLink>
 
+                    {isAdmin && (
+                        <NavLink href="/register" className={`nav-link ${pathName === '/register' ? 'text-black' : ''}`}>
+                            <Settings className="size-[18px] shrink-0" />
+                            <span>User Register</span>
+                        </NavLink>
+                    )}
 
-
-
-
-
-
-
-
-                    
-
-                        
-                            <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs font-semibold uppercase flex items-center">
-                                Pages <Minus className="ml-auto hidden" />
-                            </h3>
-                            <NavLink href="/register" className={`nav-link ${pathName === '/register' ? 'text-black' : ''}`}>
-                                <Settings className="size-[18px] shrink-0" />
-                                <span>User Register</span>
-                            </NavLink>
-                        
-                        
-                    
+                    {/* ✅ Sign out button with loading spinner */}
                     <button
                         onClick={handleSignOut}
-                        className="flex w-full items-center gap-1.5 text-danger rounded-lg px-3 py-2"
+                        disabled={isLoading}
+                        className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-danger hover:bg-red-50 disabled:opacity-50"
                     >
-                        <LogOut className="size-[18px] shrink-0" />
-                        Sign out
+                        {isLoading ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-4 w-4 text-red-600"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                    ></path>
+                                </svg>
+                                <span>Signing out...</span>
+                            </>
+                        ) : (
+                            <>
+                                <LogOut className="size-[18px] shrink-0" />
+                                <span>Sign out</span>
+                            </>
+                        )}
                     </button>
-
-
-
-
                 </Accordion>
-
             </Card>
         </>
     )
