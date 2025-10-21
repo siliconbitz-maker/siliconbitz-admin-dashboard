@@ -59,7 +59,7 @@ export default function Register() {
 
   return (
     <div className="w-full gap-5 p-4">
-      {isAdmin && (
+     
         <div className="flex overflow-y-auto py-2">
           <Card className="m-auto w-full max-w-[400px] space-y-[30px] p-5 shadow-sm md:w-[400px]">
             <CardHeader className="space-y-2">
@@ -127,7 +127,7 @@ export default function Register() {
           </Card>
         </div>
 
-      )}
+   
 
 
     </div>

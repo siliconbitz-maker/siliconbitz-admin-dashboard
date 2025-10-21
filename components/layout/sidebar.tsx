@@ -214,12 +214,16 @@ const Sidebar = () => {
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
+                    <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
+                        <span>Apps</span>
+                        <Minus className="text-gray hidden h-4 w-5" />
+                    </h3>
 
                     <NavLink
                         href="/chat"
-                        target="_blank"
+                        
                         className={`nav-link ${pathName === '/chat' && 'text-black!'}`}
-                        isProfessionalPlanRoute={true}
+                        
                     >
                         <MessageSquareText className="size-[18px] shrink-0" />
                         <span>Chat</span>
@@ -321,13 +325,9 @@ const Sidebar = () => {
 
 
 
-                    <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
-                        <span>Pages</span>
-                        <Minus className="text-gray hidden h-4 w-5" />
-                    </h3>
+                    
 
-                    {isAdmin && (
-                        <>
+                        
                             <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs font-semibold uppercase flex items-center">
                                 Pages <Minus className="ml-auto hidden" />
                             </h3>
@@ -335,8 +335,9 @@ const Sidebar = () => {
                                 <Settings className="size-[18px] shrink-0" />
                                 <span>User Register</span>
                             </NavLink>
-                        </>
-                    )}
+                        
+                        
+                    
                     <button
                         onClick={handleSignOut}
                         className="flex w-full items-center gap-1.5 text-danger rounded-lg px-3 py-2"
