@@ -71,7 +71,7 @@ export default function BlogListPage() {
           <h2 className="text-3xl sm:text-4xl font-semibold" style={{ color: '#1F2937' }}>
              All Blogs
           </h2>
-          <Link href="/dashboard/blogs/new">
+          <Link href="/blog/new">
             <Button
               style={{ backgroundColor: '#6366F1', color: '#FFFFFF' }}
               className="hover:bg-[#4F46E5]"

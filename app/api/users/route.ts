@@ -1,42 +1,46 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { getUserFromRequest } from '@/lib/auth';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-export async function GET(req: NextRequest) {
-  const authUser = await getUserFromRequest(req);
-  if (!authUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const users = await prisma.user.findMany({
-    select: { id: true, name: true, email: true, createdAt: true },
-  });
-
-  return NextResponse.json({ users });
-}
-export async function DELETE(req: NextRequest) {
-  const authUser = await getUserFromRequest(req);
-  if (!authUser)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get('id');
-  if (!id)
-    return NextResponse.json({ error: 'Missing user ID' }, { status: 400 });
-
-  const userToDelete = await prisma.user.findUnique({ where: { id } });
-  if (!userToDelete)
-    return NextResponse.json({ error: 'User not found' }, { status: 404 });
-
-  // Prevent deleting the protected email
-  if (userToDelete.email === 'admin@siliconbitz.com') {
-    return NextResponse.json({ error: 'Cannot delete this user' }, { status: 403 });
+// ✅ Get all users
+export async function GET() {
+  try {
+    const users = await prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json({ users });
+  } catch (error: any) {
+    console.error("GET /api/users error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  // Optional: prevent deleting yourself
-  if (authUser.id === id) {
-    return NextResponse.json({ error: 'Cannot delete yourself' }, { status: 403 });
-  }
-
-  await prisma.user.delete({ where: { id } });
-  return NextResponse.json({ message: 'User deleted' });
 }
 
+// ✅ Delete user
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+    }
+
+    // Check user exists
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Cascade delete: invoices + items auto delete হবে
+    await prisma.user.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: "User deleted successfully" });
+  } catch (error: any) {
+    console.error("DELETE /api/users error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete user", details: error.message },
+      { status: 500 }
+    );
+  }
+}
