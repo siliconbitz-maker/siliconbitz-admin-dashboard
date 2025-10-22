@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import ProjectsTable from '../../../components/ProjectsTable';
 import ProjectForm from '../../../components/ProjectForm';
+import ProjectsTable from '../../../components/ProjectsTable';
 
 type User = { id: string; name: string; email: string } | null;
 type Project = {
@@ -54,44 +54,71 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-6xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
-        <h1 className="text-3xl font-bold text-[#023E8A]">Projects</h1>
-        {user?.email === 'admin@siliconbitz.com' && (
-          <button
-            className="px-4 py-2 bg-[#0077B6] text-white rounded-lg hover:bg-[#005F86] transition flex items-center justify-center"
-            onClick={refresh}
+    <div
+      className="min-h-screen p-4 md:p-10"
+      style={{ backgroundColor: '#f5f6f7' }}
+    >
+      <div
+        className="max-w-7xl mx-auto rounded-2xl shadow-lg p-6 md:p-10"
+        style={{ backgroundColor: '#ffffff' }}
+      >
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+          <h1
+            className="text-2xl md:text-3xl font-bold"
+            style={{ color: '#023E8A' }}
           >
-            Refresh
-            {refreshing && (
-              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin ml-2"></span>
-            )}
-          </button>
-        )}
-      </div>
+            Projects
+          </h1>
 
-      {user?.email === 'admin@siliconbitz.com' ? (
-        <div className="mb-6">
-          <ProjectForm onCreated={refresh} />
+          {user?.email === 'admin@siliconbitz.com' && (
+            <button
+              onClick={refresh}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-white transition"
+              style={{ backgroundColor: '#0077B6' }}
+            >
+              Refresh
+              {refreshing && (
+                <span
+                  className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                ></span>
+              )}
+            </button>
+          )}
         </div>
-      ) : (
-        <div className="mb-4 text-sm text-[#495057]">
-          All Projects Details
-        </div>
-      )}
 
-      <div className="relative">
-        {loading && (
-          <div className="absolute inset-0 bg-[#00000050] flex items-center justify-center z-50">
-            <div className="w-12 h-12 border-4 border-[#0077B6] border-t-transparent rounded-full animate-spin"></div>
+        {/* Admin Project Form */}
+        {user?.email === 'admin@siliconbitz.com' && (
+          <div className="mb-6">
+            <ProjectForm onCreated={refresh} />
           </div>
         )}
 
-        <ProjectsTable
-          projects={projects}
-          onRefresh={refresh}
-          isAdmin={user?.email === 'admin@siliconbitz.com'}
-        />
+        {user?.email !== 'admin@siliconbitz.com' && (
+          <p style={{ color: '#495057', marginBottom: '16px' }}>
+            All Projects Details
+          </p>
+        )}
+
+        {/* Projects Table */}
+        <div className="relative">
+          {loading && (
+            <div
+              className="absolute inset-0 flex items-center justify-center z-50"
+              style={{ backgroundColor: '#00000050' }}
+            >
+              <div
+                className="w-12 h-12 border-4 border-[#0077B6] border-t-transparent rounded-full animate-spin"
+              ></div>
+            </div>
+          )}
+
+          <ProjectsTable
+            projects={projects}
+            onRefresh={refresh}
+            isAdmin={user?.email === 'admin@siliconbitz.com'}
+          />
+        </div>
       </div>
     </div>
   );

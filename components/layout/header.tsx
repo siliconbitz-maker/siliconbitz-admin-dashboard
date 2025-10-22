@@ -70,7 +70,7 @@ const Header = () => {
                 <div className="group flex cursor-pointer items-center gap-2.5 rounded-lg">
                   <div className="size-8 shrink-0 overflow-hidden rounded-full">
                     <Image
-                      src="/images/profile.png"
+                      src="/images/contact-us.svg"
                       width={32}
                       height={32}
                       className="h-full w-full object-cover"

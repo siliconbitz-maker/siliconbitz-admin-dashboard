@@ -62,15 +62,12 @@ export default function Register() {
      
         <div className="flex overflow-y-auto py-2">
           <Card className="m-auto w-full max-w-[400px] space-y-[30px] p-5 shadow-sm md:w-[400px]">
-            <CardHeader className="space-y-2">
-              <h2 className="text-xl font-semibold text-black">Getting started</h2>
-              <p className="font-medium leading-tight">Create an account to connect with people.</p>
-            </CardHeader>
+            
 
             <CardContent className="space-y-[30px]">
               <div className="flex items-center gap-2.5">
                 <span className="h-px w-full bg-[#E2E4E9]" />
-                <p className="shrink-0 font-medium leading-tight">register with email</p>
+                <p className="shrink-0 font-medium leading-tight">Register with email</p>
                 <span className="h-px w-full bg-[#E2E4E9]" />
               </div>
 

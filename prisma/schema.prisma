@@ -25,7 +25,7 @@ model Invoice {
   company   String
   amount    Float
   date      DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId    String
   items     Item[]
   createdAt DateTime @default(now())
@@ -36,7 +36,7 @@ model Item {
   id          String  @id @default(cuid())
   description String
   price       Float
-  invoice     Invoice @relation(fields: [invoiceId], references: [id])
+  invoice     Invoice @relation(fields: [invoiceId], references: [id],onDelete: Cascade)
   invoiceId   String
 }
 

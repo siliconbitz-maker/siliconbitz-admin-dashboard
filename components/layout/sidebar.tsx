@@ -94,8 +94,8 @@ const Sidebar = () => {
                 id="sidebar"
                 className={`sidebar fixed top-0 -left-[260px] z-40 flex h-screen w-[260px] flex-col rounded-none transition-all duration-300 lg:top-16 lg:left-0 lg:h-[calc(100vh-64px)] ${isSidebarOpen ? 'closed' : ''}`}
             >
-                <div className="flex items-start justify-between border-b border-gray-300 px-4 py-5 lg:hidden">
-                    <Link href="/" className="inline-block">
+                <div className="flex items-start font-bold justify-between border-b border-gray-300 px-4 py-5 lg:hidden">
+                    <Link href="/" className="inline-block font-bold">
                         Siliconbitz
                     </Link>
                     <button type="button" onClick={toggleSidebarResponsive}>
@@ -182,6 +182,30 @@ const Sidebar = () => {
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
+                    <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
+                        <span>Hr Management</span>
+                        <Minus className="text-gray hidden h-4 w-5" />
+                    </h3>
+                     <AccordionItem value="item-3" className="p-0 shadow-none">
+                        <AccordionTrigger className="nav-link">
+                            <ScrollText className="size-[18px] shrink-0" />
+                            <span>CV</span>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <ul className="submenu space-y-2 pl-12">
+                                <li>
+                                    <NavLink href="/allcv" isAccordion={true}>
+                                        All CV
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink href="/shortedcv" isAccordion={true}>
+                                        Shorted CV
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        </AccordionContent>
+                    </AccordionItem>
 
                     <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
                         <span>User Interface</span>
@@ -193,12 +217,12 @@ const Sidebar = () => {
                         <span>Users</span>
                     </NavLink>
 
-                    {isAdmin && (
+                    
                         <NavLink href="/register" className={`nav-link ${pathName === '/register' ? 'text-black' : ''}`}>
                             <Settings className="size-[18px] shrink-0" />
                             <span>User Register</span>
                         </NavLink>
-                    )}
+                
 
                     {/* ✅ Sign out button with loading spinner */}
                     <button
