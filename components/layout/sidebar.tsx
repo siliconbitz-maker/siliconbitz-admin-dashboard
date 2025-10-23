@@ -57,6 +57,7 @@ const Sidebar = () => {
     }
 
     const isAdmin = userEmail === 'admin@siliconbitz.com'
+    const isHr = userEmail === 'hr@siliconbitz.com'
 
     const handleSignOut = async () => {
         try {
@@ -118,18 +119,24 @@ const Sidebar = () => {
                         <AccordionContent>
                             <ul className="submenu space-y-2 pr-0 pl-12">
                                 <li>
-                                    <NavLink href="/dashboard" isAccordion={true}>
-                                        Overview
-                                    </NavLink>
+                                    {isAdmin && (
+                                        <NavLink href="/dashboard" isAccordion={true}>
+                                            Overview
+                                        </NavLink>
+                                    )}
                                 </li>
+
                                 <li>
+
                                     <NavLink href="/projects" isAccordion={true}>
                                         Projects
                                     </NavLink>
+
                                 </li>
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
+
 
                     <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
                         <span>Apps</span>
@@ -139,6 +146,10 @@ const Sidebar = () => {
                     <NavLink href="/scrumboard" className={`nav-link ${pathName === '/scrumboard' && 'text-black!'}`}>
                         <SquareKanban className="size-[18px] shrink-0" />
                         <span>Scrumboard</span>
+                    </NavLink>
+                    <NavLink href="/scheduled" className={`nav-link ${pathName === '/scrumboard' && 'text-black!'}`}>
+                        <SquareKanban className="size-[18px] shrink-0" />
+                        <span>Interviewers</span>
                     </NavLink>
 
                     <AccordionItem value="item-2" className="p-0 shadow-none">
@@ -160,7 +171,10 @@ const Sidebar = () => {
                                 </li>
                             </ul>
                         </AccordionContent>
+
                     </AccordionItem>
+
+
 
                     <AccordionItem value="item-3" className="p-0 shadow-none">
                         <AccordionTrigger className="nav-link">
@@ -182,47 +196,58 @@ const Sidebar = () => {
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
-                    <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
-                        <span>Hr Management</span>
-                        <Minus className="text-gray hidden h-4 w-5" />
-                    </h3>
-                     <AccordionItem value="item-3" className="p-0 shadow-none">
-                        <AccordionTrigger className="nav-link">
-                            <ScrollText className="size-[18px] shrink-0" />
-                            <span>CV</span>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <ul className="submenu space-y-2 pl-12">
-                                <li>
-                                    <NavLink href="/allcv" isAccordion={true}>
-                                        All CV
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink href="/shortedcv" isAccordion={true}>
-                                        Shorted CV
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        </AccordionContent>
-                    </AccordionItem>
+
+
+                    {isHr && (
+                        <>
+
+                            <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
+                                <span>Hr Management</span>
+                                <Minus className="text-gray hidden h-4 w-5" />
+                            </h3>
+                            <AccordionItem value="item-4" className="p-0 shadow-none">
+                                <AccordionTrigger className="nav-link">
+                                    <ScrollText className="size-[18px] shrink-0" />
+                                    <span>CV</span>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <ul className="submenu space-y-2 pl-12">
+                                        <li>
+                                            <NavLink href="/all-CVs" isAccordion={true}>
+                                                All CV
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink href="/shorted" isAccordion={true}>
+                                                Shorted CV
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </>
+                    )}
 
                     <h3 className="mt-2.5 rounded-lg bg-gray-400 px-5 py-2.5 text-xs/tight font-semibold whitespace-nowrap text-black uppercase">
                         <span>User Interface</span>
                         <Minus className="text-gray hidden h-4 w-5" />
                     </h3>
 
-                    <NavLink href="/users" className={`nav-link`}>
-                        <PieChart className="size-[18px] shrink-0" />
-                        <span>Users</span>
-                    </NavLink>
 
-                    
-                        <NavLink href="/register" className={`nav-link ${pathName === '/register' ? 'text-black' : ''}`}>
-                            <Settings className="size-[18px] shrink-0" />
-                            <span>User Register</span>
-                        </NavLink>
-                
+                    {isAdmin && (
+                        <>
+                            <NavLink href="/users" className={`nav-link`}>
+                                <PieChart className="size-[18px] shrink-0" />
+                                <span>Users</span>
+                            </NavLink>
+                            <NavLink href="/register" className={`nav-link ${pathName === '/register' ? 'text-black' : ''}`}>
+                                <Settings className="size-[18px] shrink-0" />
+                                <span>User Register</span>
+                            </NavLink>
+                        </>
+
+                    )}
+
 
                     {/* ✅ Sign out button with loading spinner */}
                     <button
